@@ -86,6 +86,8 @@ SCHED_FEAT(TTWU_QUEUE, false)
 #define SCHED_FEAT_ENERGY_AWARE 0
 #endif
 
+SCHED_FEAT(HISI_FILTER, true)
+
 /*
  * Energy aware scheduling algorithm choices:
  * EAS_PREFER_IDLE
