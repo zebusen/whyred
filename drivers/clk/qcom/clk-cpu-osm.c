@@ -426,19 +426,14 @@ static inline int clk_osm_read_reg(struct clk_osm *c, u32 offset)
 	return readl_relaxed((char *)c->vbases[OSM_BASE] + offset);
 }
 
-static inline int clk_osm_read_reg_no_log(struct clk_osm *c, u32 offset)
-{
-	return readl_relaxed_no_log((char *)c->vbases[OSM_BASE] + offset);
-}
-
 static inline int clk_osm_mb(struct clk_osm *c, int base)
 {
-	return readl_relaxed_no_log((char *)c->vbases[base] + VERSION_REG);
+	return readl_relaxed((char *)c->vbases[base] + VERSION_REG);
 }
 
 static inline int clk_osm_acd_mb(struct clk_osm *c)
 {
-	return readl_relaxed_no_log((char *)c->vbases[ACD_BASE] +
+	return readl_relaxed((char *)c->vbases[ACD_BASE] +
 				    ACD_HW_VERSION);
 }
 
@@ -2522,7 +2517,7 @@ static u64 clk_osm_get_cpu_cycle_counter(int cpu)
 	}
 
 	spin_lock_irqsave(&c->lock, flags);
-	val = clk_osm_read_reg_no_log(c, OSM_CYCLE_COUNTER_STATUS_REG);
+	val = clk_osm_read_reg(c, OSM_CYCLE_COUNTER_STATUS_REG);
 
 	if (val < c->prev_cycle_counter) {
 		/* Handle counter overflow */
@@ -3136,9 +3131,6 @@ static int clk_cpu_osm_driver_probe(struct platform_device *pdev)
 	struct clk_onecell_data *clk_data;
 	char perfclspeedbinstr[] = "qcom,perfcl-speedbin0-v0";
 	char pwrclspeedbinstr[] = "qcom,pwrcl-speedbin0-v0";
-	struct cpu_cycle_counter_cb cb = {
-		.get_cpu_cycle_counter = clk_osm_get_cpu_cycle_counter,
-	};
 
 	/*
 	 * Require the RPM-XO clock and GCC-HMSS-GPLL0 clocks to be registererd
@@ -3416,8 +3408,6 @@ static int clk_cpu_osm_driver_probe(struct platform_device *pdev)
 	populate_debugfs_dir(&perfcl_clk);
 
 	of_platform_populate(pdev->dev.of_node, NULL, NULL, &pdev->dev);
-
-	register_cpu_cycle_counter_cb(&cb);
 
 	pr_info("OSM driver inited\n");
 	put_online_cpus();
