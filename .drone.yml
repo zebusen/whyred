@@ -15,6 +15,6 @@ steps:
   commands:
     - curl https://raw.githubusercontent.com/theradcolor/lazyscripts/master/etc/workaround > workaround && bash workaround
     - pacman -Sy base-devel bc curl zip wget git lld --noconfirm
-    - git clone --depth=1 --quiet https://zebusen:$PERSONAL_TOKEN@github.com/zebusen/whyred.git -b base source && cd source
+    - git clone --depth=1 --quiet https://zebusen:$PERSONAL_TOKEN@github.com/zebusen/whyred.git -b eas source && cd source
     - git clone --depth=1 --quiet https://github.com/zebusen/buildscript.git
-    - script -c "bash -x buildscript/sdm660.sh --gcc-elf --silont-11 --oldcam --hmp"
+    - script -c "bash -x buildscript/sdm660.sh --gcc-elf --silont-11 --oldcam --eas"
