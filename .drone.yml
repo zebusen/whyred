@@ -17,4 +17,4 @@ steps:
     - pacman -Sy base-devel bc curl zip wget git lld --noconfirm
     - git clone --depth=1 --quiet https://zebusen:$PERSONAL_TOKEN@github.com/zebusen/whyred.git -b eas source && cd source
     - git clone --depth=1 --quiet https://github.com/zebusen/buildscript.git
-    - script -c "bash -x buildscript/sdm660.sh --gcc-elf --silont-11 --oldcam --eas"
+    - script -c "bash -x buildscript/sdm660.sh --gcc-elf --silont-11 --oldcam"
